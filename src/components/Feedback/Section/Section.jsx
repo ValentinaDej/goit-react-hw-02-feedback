@@ -1,4 +1,4 @@
-const FeedbackBlock = ({ children, title }) => {
+const Section = ({ children, title }) => {
   return (
     <div>
       <h2>{title}</h2>
@@ -7,4 +7,4 @@ const FeedbackBlock = ({ children, title }) => {
   );
 };
 
-export default FeedbackBlock;
+export default Section;

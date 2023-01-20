@@ -1,7 +1,8 @@
 import { Component } from 'react';
-import FeedbackBlock from './FeedBackBlock/FeedbackBlock';
-import FeedBackVote from './FeedbackVote/FeedbackVote';
-import FeedBackResults from './FeedbackResults/FeedbackResults';
+import Section from './Section/Section';
+import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
+import Statistics from './Statistics/Statistics';
+import Notification from './Notification/Notification';
 
 const feedbackOptions = ['good', 'neutral', 'bad'];
 
@@ -17,26 +18,50 @@ class Feedback extends Component {
       return { [name]: prevState[name] + 1 };
     });
   };
-
+  countTotalFeedback() {
+    const { good, neutral, bad } = this.state;
+    const total = good + neutral + bad;
+    return total;
+  }
+  countPositiveFeedbackPercentage(propName) {
+    const total = this.countTotalFeedback();
+    if (!total) {
+      return 0;
+    }
+    const result = ((propName / total) * 100).toFixed(2);
+    return Number(result);
+  }
   render() {
     return (
       <div>
-        <FeedbackBlock title="Please leave your feedback">
-          <FeedBackVote
+        <Section title="Please leave your feedback">
+          <FeedbackOptions
             options={feedbackOptions}
-            leaveVote={this.leaveVote}
-          ></FeedBackVote>
-        </FeedbackBlock>
-        <FeedbackBlock title="Statistics">
-          <FeedBackResults
-            goodResult={this.state.good}
-            neutralResult={this.state.neutral}
-            badResult={this.state.bad}
-          />
-        </FeedbackBlock>
+            onLeaveFeedback={this.leaveVote}
+          ></FeedbackOptions>
+        </Section>
+        {this.countTotalFeedback() ? (
+          <Section title="Statistics">
+            <Statistics
+              good={this.state.good}
+              neutral={this.state.neutral}
+              bad={this.state.bad}
+              total={this.countTotalFeedback()}
+              positivePercentage={this.countPositiveFeedbackPercentage(
+                this.state.good
+              )}
+            />
+          </Section>
+        ) : (
+          <Notification title={'There is no feedback'} />
+        )}
       </div>
     );
   }
 }
 
 export default Feedback;
+
+//  {
+//    title && <StatisticsName>{title.toUpperCase()}</StatisticsName>;
+//  }
