@@ -1,18 +1,30 @@
-const Statistics = ({ good, neutral, bad, total, positivePercentage }) => {
+import PropTypes from 'prop-types';
+import styles from './Statistics.module.css';
+
+const Statistics = ({
+  options: { good, neutral, bad, total, positivePercentage },
+}) => {
   return (
     <>
-      <p>Good: {good}</p>
-      <p>Neutral: {neutral}</p>
-      <p>Bad: {bad} </p>
-      <p>Total: {total} </p>
-      <p>Positive feedback: {positivePercentage}% </p>
+      <p className={styles.info}>Good: {good}</p>
+      <p className={styles.info}>Neutral: {neutral}</p>
+      <p className={styles.info}>Bad: {bad} </p>
+      <p className={styles.infoTotal}>Total: {total} </p>
+      <p className={styles.infoTotal}>
+        Positive feedback: {positivePercentage}%{' '}
+      </p>
     </>
   );
 };
 
 export default Statistics;
 
-//  <Notification title={'There is no feedback'} />;
-//  {
-//    title && <StatisticsName>{title.toUpperCase()}</StatisticsName>;
-//  }
+Statistics.prototypes = {
+  good: PropTypes.number.isRequired,
+  neutral: PropTypes.number.isRequired,
+  bad: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
+  positivePercentage: PropTypes.number.isRequired,
+};
+
+//{ good, neutral, bad, total, positivePercentage }
